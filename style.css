@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css?family=Fredericka+the+Great|Poppins|Roboto&display=swap');
+
+body{
+    background-color: black;
+}
+
+h1{
+    color: whitesmoke;
+    font-family: 'Fredericka the Great', cursive;
+}
+h2{
+    color: whitesmoke;
+    font-family: 'Roboto', sans-serif;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 2rem;
+}
+
+.testing{
+    display: flex;
+    justify-content: center;
+}
+
+main{
+    display: flex;
+    justify-content: center;
+}
+.game{
+    background-image:url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2852&q=80');
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    height: 30rem;
+    width: 50rem;
+    box-shadow: 0 8px 16px 0 rgba(250, 249, 249, 0.2);
+}
+
+.game-canvas {
+    width: 50rem;
+    height: 30rem;
+    position: absolute;
+	background-color: transparent;
+}
+.table-canvas:focus {
+    outline: none;
+}
+
+.player{
+    display: none;
+    height: 6rem;
+    width: 6rem;
+    position: relative;
+    top: 11rem;
+    background-image: url('./resources/theCat2.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: rotate(-20deg);
+}
+
+.cat{
+    height: 6rem;
+    width: 6rem;
+    position: relative;
+    top: 10.5rem;
+    background-image: url('./resources/theCat.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: rotate(-20deg);
+}
+
+.message-board {
+    background-image: url('./resources/pan.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    text-align: center;
+    min-height: 20rem;
+    min-width:30rem;
+	top: 12rem;
+    padding-top: 2rem;
+}
+
+p{
+    font-family: 'Poppins', sans-serif;
+    color: #202020;
+    font-size: 22px;
+}
+
+.start {
+    background-color: inherit;
+    border: none;
+    padding: 0.5rem;
+    color: #0a1527;
+    font-size: 22px;
+    margin-top: 2rem;
+    min-width: 60%;
+    font-family: 'Poppins', sans-serif;
+}
+
+.laser{
+    height:1rem;
+    width: 5rem;
+    background-color: red;
+    position: relative;
+}
+
+.asteroid{
+    background-image: url('./resources/asteroid.png');
+    background-size: contain;
+    height:4rem;
+    width: 4rem;
+    filter: sepia(100%);
+}
