@@ -174,6 +174,7 @@ function hit(laser, asteroid){
     let asteroidTop = parseInt(asteroid.style.top)
     let asteroidBottom = asteroidTop - 4
 
+    // collision hit calcuation are not quite correct....
     if (laserLeft != 670 && laserLeft <= asteroidLeft){
         if(laserTop <= asteroidTop && laserTop >= asteroidBottom){
             return true 
@@ -215,6 +216,7 @@ function showMessageBoardEnd(){
 function restartGame(){
     const messageBoardEnd = document.querySelector(".message-board-end");
     messageBoardEnd.style.visibility = "hidden"
-
+    score = 0
+    scoreBoard()
     playGame()
 }
