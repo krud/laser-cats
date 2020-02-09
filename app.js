@@ -9,11 +9,13 @@ let player;
 let playerAngle;
 let newAngle;
 let myAngle;
+let gameArea;
 
 function postLoad() {
     messageBoard = document.querySelector(".message-board");
     player = document.querySelector('.player')
     const start = document.querySelector(".start");
+    gameArea = document.querySelector('.game')
 
     start.addEventListener("click", startGame)
 }
@@ -40,6 +42,7 @@ function hideCat(){
 
 function createGame(){
     // createVariables()
+    asteroidInterval = setInterval(() => {createAsteroid()}, 2100)
     window.addEventListener("keydown", angleCat)
     // playGame()
 }
@@ -96,8 +99,6 @@ function angleCat(event){
 }
 
 function fireLaser(){
-    const gameArea = document.querySelector('.game')
-    
     let laser = createLaserElement()
     gameArea.appendChild(laser)
     moveLaser(laser)
@@ -131,6 +132,27 @@ function moveLaser(laser){
             laser.style.top = `${yPosition - 1}px`
         }
     }, 10)
+}
+
+function createAsteroid(){
+    let newAsteroid = document.createElement('img')
+    newAsteroid.classList.add('asteroid')
+    newAsteroid.src = 'resources/asteroid.png'
+    newAsteroid.style.left = '46rem'
+    newAsteroid.style.top = `${Math.floor(Math.random()* 6)}rem`
+    gameArea.appendChild(newAsteroid) 
+    moveAsteroid(newAsteroid)
+}
+
+function moveAsteroid(asteroid){
+    let moveAsteroidInterval = setInterval(()=>{
+        let xPosition = parseInt(window.getComputedStyle(asteroid).getPropertyValue('left'))    
+        if (xPosition <= 50){
+            asteroid.remove()
+        } else {
+            asteroid.style.left = `${xPosition - 1}px`
+        }
+    })
 }
 
 function scoreBoard(){

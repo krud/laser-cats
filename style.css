@@ -113,9 +113,11 @@ p{
 } */
 
 .asteroid{
-    background-image: url('./resources/asteroid.png');
     background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
     height:4rem;
     width: 4rem;
     filter: sepia(100%);
 }
+
