@@ -73,6 +73,11 @@ main{
     transform: rotate(-20deg);
 }
 
+.laser{
+    transform: rotate(-20deg);
+    position: relative;
+}
+
 .message-board {
     background-image: url('./resources/pan.png');
     background-repeat: no-repeat;
@@ -100,12 +105,12 @@ p{
     font-family: 'Poppins', sans-serif;
 }
 
-.laser{
+/* .laser{
     height:1rem;
     width: 5rem;
     background-color: red;
     position: relative;
-}
+} */
 
 .asteroid{
     background-image: url('./resources/asteroid.png');

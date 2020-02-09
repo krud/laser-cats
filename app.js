@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", postLoad);
 
-const gameArea = document.querySelector('.game')
-
 let score = 0;
 let asteroidInterval;
 let asteroids;
@@ -14,6 +12,7 @@ let myAngle;
 
 function postLoad() {
     messageBoard = document.querySelector(".message-board");
+    player = document.querySelector('.player')
     const start = document.querySelector(".start");
 
     start.addEventListener("click", startGame)
@@ -34,15 +33,9 @@ function hideMessageBoard(){
 
 function hideCat(){
     cat = document.querySelector('.cat')
-    player = document.querySelector('.player')
 
     player.style.display = "block"
     cat.style.display = "none"
-}
-
-function scoreBoard(){
-   const scores = document.querySelector('h2')
-   scores.textContent = `Score: ${score}`
 }
 
 function createGame(){
@@ -101,3 +94,46 @@ function angleCat(event){
         fireLaser()
     }
 }
+
+function fireLaser(){
+    const gameArea = document.querySelector('.game')
+    
+    let laser = createLaserElement()
+    gameArea.appendChild(laser)
+    moveLaser(laser)
+}
+
+function createLaserElement(){
+    myAngle = window.getComputedStyle(player).getPropertyValue('transform')
+    playerAngle = findAngle(myAngle)
+
+    let xPosition = parseInt(window.getComputedStyle(player).getPropertyValue('left'))
+    let yPosition = parseInt(window.getComputedStyle(player).getPropertyValue('top'))
+    let newLaser = document.createElement('img')
+    newLaser.src = 'resources/laser.png'
+    newLaser.classList.add('laser')
+    newLaser.style.top = `${yPosition - 69}px`
+    newLaser.style.transform = `rotate(${playerAngle}deg)`
+    newLaser.style.left = `${xPosition - 24}px`
+    return newLaser
+}
+
+function moveLaser(laser){
+    let laserInterval = setInterval(() => {
+        let xPosition = parseInt(laser.style.left)
+        let yPosition = parseInt(laser.style.top)
+
+        if (xPosition >= 660) {
+            laser.remove()
+        } else {
+            // below is perfect only if the angle is -20 must use a formula to position based on the angle 
+            laser.style.left = `${xPosition + 4}px`
+            laser.style.top = `${yPosition - 1}px`
+        }
+    }, 10)
+}
+
+function scoreBoard(){
+    const scores = document.querySelector('h2')
+    scores.textContent = `Score: ${score}`
+ }
