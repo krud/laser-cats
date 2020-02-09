@@ -89,6 +89,18 @@ main{
 	top: 16rem;
     padding-top: 2rem;
 }
+.message-board-end{
+    background-image: url('./resources/pan.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    text-align: center;
+    min-height: 20rem;
+    min-width:30rem;
+	top: 16rem;
+    padding-top: 2rem;
+    visibility: hidden;
+}
 
 p{
     font-family: 'Poppins', sans-serif;
@@ -104,7 +116,14 @@ p{
     min-width: 60%;
     font-family: 'Poppins', sans-serif;
 }
-
+.restart{
+    background-color: inherit;
+    border: none;
+    color: #0a1527;
+    font-size: 22px;
+    min-width: 60%;
+    font-family: 'Poppins', sans-serif;
+}
 /* .laser{
     height:1rem;
     width: 5rem;
@@ -121,3 +140,8 @@ p{
     filter: sepia(100%);
 }
 
+.destroyed{
+    height:4rem;
+    width: 4rem;
+    position: absolute;
+}

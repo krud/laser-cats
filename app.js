@@ -25,7 +25,7 @@ function startGame(){
 
     hideMessageBoard();
     hideCat();
-    createGame();
+    playGame();
 }
 
 function hideMessageBoard(){
@@ -40,11 +40,9 @@ function hideCat(){
     cat.style.display = "none"
 }
 
-function createGame(){
-    // createVariables()
+function playGame(){
     asteroidInterval = setInterval(() => {createAsteroid()}, 2100)
     window.addEventListener("keydown", angleCat)
-    // playGame()
 }
 
 function moveUp(){
@@ -123,7 +121,17 @@ function moveLaser(laser){
     let laserInterval = setInterval(() => {
         let xPosition = parseInt(laser.style.left)
         let yPosition = parseInt(laser.style.top)
+        let asteroids = document.querySelectorAll('.asteroid')
 
+        asteroids.forEach(asteroid => {
+            if (hit(laser, asteroid)){
+                asteroid.src = 'https://purepng.com/public/uploads/large/purepng.com-explosionnaturesmokefireflamewardangerexplosionburnblastburst-961524672225kqu1g.png'
+                asteroid.classList.remove('asteroid')
+                asteroid.classList.add('destroyed')
+                score += 100
+                scoreBoard()
+            }
+        })
         if (xPosition >= 660) {
             laser.remove()
         } else {
@@ -148,14 +156,65 @@ function moveAsteroid(asteroid){
     let moveAsteroidInterval = setInterval(()=>{
         let xPosition = parseInt(window.getComputedStyle(asteroid).getPropertyValue('left'))    
         if (xPosition <= 50){
-            asteroid.remove()
+            if(Array.from(asteroid.classList).includes('destroyed')){
+                asteroid.remove()
+            } else {
+                gameOver()
+            }
         } else {
             asteroid.style.left = `${xPosition - 1}px`
         }
     })
 }
 
+function hit(laser, asteroid){
+    let laserLeft = parseInt(laser.style.left)
+    let laserTop = parseInt(laser.style.top)
+    let asteroidLeft = parseInt(asteroid.style.left)
+    let asteroidTop = parseInt(asteroid.style.top)
+    let asteroidBottom = asteroidTop - 4
+
+    if (laserLeft != 670 && laserLeft <= asteroidLeft){
+        if(laserTop <= asteroidTop && laserTop >= asteroidBottom){
+            return true 
+        } else {
+            return false
+        } 
+    } else {
+        return false 
+    }
+}
+
 function scoreBoard(){
     const scores = document.querySelector('h2')
     scores.textContent = `Score: ${score}`
  }
+
+ function gameOver(){
+    window.removeEventListener("keydown", angleCat)
+    clearInterval(asteroidInterval)
+
+    removeElements()
+    showMessageBoardEnd()
+    const restart = document.querySelector('.restart')
+    restart.addEventListener('click', restartGame)
+ }
+
+ function removeElements(){
+    asteroids = document.querySelectorAll('.asteroid')
+    asteroids.forEach(asteroid => asteroid.remove())
+    lasers = document.querySelectorAll('.laser')
+    lasers.forEach(laser => laser.remove())
+ }
+
+function showMessageBoardEnd(){
+    const messageBoardEnd = document.querySelector(".message-board-end");
+    messageBoardEnd.style.visibility = "visible";
+}
+
+function restartGame(){
+    const messageBoardEnd = document.querySelector(".message-board-end");
+    messageBoardEnd.style.visibility = "hidden"
+
+    playGame()
+}
