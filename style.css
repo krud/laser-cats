@@ -81,7 +81,7 @@ main{
     text-align: center;
     min-height: 20rem;
     min-width:30rem;
-	top: 12rem;
+	top: 16rem;
     padding-top: 2rem;
 }
 
@@ -94,10 +94,8 @@ p{
 .start {
     background-color: inherit;
     border: none;
-    padding: 0.5rem;
     color: #0a1527;
     font-size: 22px;
-    margin-top: 2rem;
     min-width: 60%;
     font-family: 'Poppins', sans-serif;
 }

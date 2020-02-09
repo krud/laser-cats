@@ -1,59 +1,103 @@
 document.addEventListener("DOMContentLoaded", postLoad);
 
+const gameArea = document.querySelector('.game')
+
 let score = 0;
-let messageBoardEnd;
-let gameOver;
-let message;
-let game;
-let gameContext;
-let gameWidth;
-let gameHeight;
-let gameCenterX;
-let gameCenterY;
+let asteroidInterval;
+let asteroids;
+let lasers;
+let cat;
+let player;
+let playerAngle;
+let newAngle;
+let myAngle;
 
 function postLoad() {
     messageBoard = document.querySelector(".message-board");
-    let startButton = document.querySelector(".start");
+    const start = document.querySelector(".start");
 
-    startButton.addEventListener("click", startGame)
+    start.addEventListener("click", startGame)
 }
 
 function startGame(){
     event.preventDefault();
-    messageBoard.style.visibility = "hidden";
+
+    hideMessageBoard();
     hideCat();
     createGame();
 }
 
+function hideMessageBoard(){
+    const messageBoard = document.querySelector(".message-board");
+    messageBoard.style.visibility = "hidden";
+}
+
 function hideCat(){
-    let cat = document.querySelector('.cat')
-    let player = document.querySelector('.player')
+    cat = document.querySelector('.cat')
+    player = document.querySelector('.player')
 
     player.style.display = "block"
     cat.style.display = "none"
 }
 
 function scoreBoard(){
-   let scores = document.querySelector('h2')
+   const scores = document.querySelector('h2')
    scores.textContent = `Score: ${score}`
 }
 
 function createGame(){
-    createVariables()
+    // createVariables()
+    window.addEventListener("keydown", angleCat)
     // playGame()
 }
 
-function createVariables(){
-    game = document.getElementById("canvas")
+function moveUp(){
+    myAngle = window.getComputedStyle(player).getPropertyValue('transform')
+    const maxAngle = 'matrix(0.406737, -0.913545, 0.913545, 0.406737, 0, 0)'
+    if (myAngle === maxAngle){
+        return
+    } else {
+        playerAngle = findAngle(myAngle)
+        newAngle = playerAngle - 2
+        player.style.transform = `rotate(${newAngle}deg)`
+    }
+}
+// rotate(Xdeg) = matrix(cos(X), sin(X), -sin(X), cos(X), 0, 0);
 
-    gameContext = game.getContext('2d');
-    gameWidth = 50;
-    gameHeight = 30;
-    gameCenterX = gameWidth / 2;
-    gameCenterY = gameHeight / 2;
+function findAngle(rotate){
+    var values = rotate.split('(')[1],
+        values = values.split(')')[0],
+        values = values.split(',');
 
-    game.width = gameWidth;
-    game.height = gameHeight;
+    var angleCos = values[0]
+    var angleSin = values[1]
 
-    game.focus();
+    var angle = Math.round(Math.atan2(angleSin, angleCos) * (180/Math.PI));
+    
+    return angle 
+}
+
+function moveDown(){
+    myAngle = window.getComputedStyle(player).getPropertyValue('transform')
+    const maxAngle = 'matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)'
+    if (myAngle === maxAngle){
+        return
+    } else {
+        playerAngle = findAngle(myAngle)
+        newAngle = playerAngle + 2
+        player.style.transform = `rotate(${newAngle}deg)`
+    }
+}
+
+function angleCat(event){
+    if (event.key === "ArrowUp"){
+        event.preventDefault()
+        moveUp()
+    } else if (event.key === "ArrowDown") {
+        event.preventDefault()
+        moveDown()
+    } else if (event.key === " ") {
+        event.preventDefault()
+        fireLaser()
+    }
 }
