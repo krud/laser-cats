@@ -106,21 +106,33 @@ function createLaserElement(){
     myAngle = window.getComputedStyle(player).getPropertyValue('transform')
     playerAngle = findAngle(myAngle)
 
-    let xPosition = parseInt(window.getComputedStyle(player).getPropertyValue('left'))
-    let yPosition = parseInt(window.getComputedStyle(player).getPropertyValue('top'))
-    let newLaser = document.createElement('img')
-    newLaser.src = 'resources/laser.png'
-    newLaser.classList.add('laser')
-    newLaser.style.top = `${yPosition - 69}px`
+    let xPosition = parseInt(window.getComputedStyle(player).getPropertyValue('left')) //0
+    let yPosition = parseInt(window.getComputedStyle(player).getPropertyValue('top')) //176
+    // let newLaser = document.createElement('img')
+    // newLaser.src = 'resources/laser.png'
+    // newLaser.classList.add('laser')
+    // newLaser.style.top = `${yPosition - 69}px`
+    // newLaser.style.transform = `rotate(${playerAngle}deg)`
+    // newLaser.style.left = `${xPosition - 24}px`
+
+    // let newLaser = document.createElement('i')
+    // newLaser.classList.add('fas', 'fa-circle')
+
+    let newLaser = document.createElement('div')
+    newLaser.classList.add('laser1')
     newLaser.style.transform = `rotate(${playerAngle}deg)`
-    newLaser.style.left = `${xPosition - 24}px`
+    newLaser.style.top = `${yPosition - 85}px`
+    newLaser.style.left = `${xPosition + 78}px`
     return newLaser
 }
 
 function moveLaser(laser){
     let laserInterval = setInterval(() => {
-        let xPosition = parseInt(laser.style.left)
-        let yPosition = parseInt(laser.style.top)
+        let xPosition = parseInt(laser.style.left) //78
+        let yPosition = parseInt(laser.style.top) //91
+        // console.log("testing3", xPosition)
+        // console.log("testing4", yPosition)
+
         let asteroids = document.querySelectorAll('.asteroid')
 
         asteroids.forEach(asteroid => {
@@ -132,10 +144,10 @@ function moveLaser(laser){
                 scoreBoard()
             }
         })
+         // below is worksish only if the angle is -20 must use a formula to position based on the angle  660
         if (xPosition >= 660) {
             laser.remove()
         } else {
-            // below is perfect only if the angle is -20 must use a formula to position based on the angle 
             laser.style.left = `${xPosition + 4}px`
             laser.style.top = `${yPosition - 1}px`
         }
@@ -147,7 +159,8 @@ function createAsteroid(){
     newAsteroid.classList.add('asteroid')
     newAsteroid.src = 'resources/asteroid.png'
     newAsteroid.style.left = '46rem'
-    newAsteroid.style.top = `${Math.floor(Math.random()* 6)}rem`
+    newAsteroid.style.top = `${Math.floor(Math.random()* 96)}px`
+
     gameArea.appendChild(newAsteroid) 
     moveAsteroid(newAsteroid)
 }
@@ -168,22 +181,62 @@ function moveAsteroid(asteroid){
 }
 
 function hit(laser, asteroid){
-    let laserLeft = parseInt(laser.style.left)
-    let laserTop = parseInt(laser.style.top)
-    let asteroidLeft = parseInt(asteroid.style.left)
-    let asteroidTop = parseInt(asteroid.style.top)
-    let asteroidBottom = asteroidTop - 4
+    let laserLeft = parseInt(laser.style.left) //78
+    let laserTop = parseInt(laser.style.top) //91
+    let rotate = laser.style.transform //rotate(-20)
 
+    let laserLength = 40.00
+
+    var value = rotate.split('(')[1],
+        value = value.split('deg')[0];
+        //above give the angle 
+
+    let cosine = Math.abs(Math.cos(value) * laserLength)
+    let sine = Math.abs(Math.sin(value) * laserLength)
+
+    let xPosition = laserLeft + 40 + sine
+    let yPosition = laserTop - cosine
+
+    // context.arc(x,y,r,sAngle,eAngle,counterclockwise);
+    // const asteroidRadius = 32 
+    let asteroidLeft = parseInt(asteroid.style.left) // 706
+    // let asteroidCenter = asteroidLeft + asteroidRadius
+    // let asteroidCircle = Math.PI * Math.sqrt(asteroidRadius)
+
+    // console.log("lright", laserLeft + 80)
+    // console.log("circle", asteroidCircle)
+
+    let asteroidTop = parseInt(asteroid.style.top) // 5
+    let asteroidBottom = asteroidTop + 64
+
+    console.log("aBottom", asteroidBottom)
+    console.log("aTop", asteroidTop)
+    console.log("x", xPosition)
+    console.log("y", yPosition)
     // collision hit calcuation are not quite correct....
-    if (laserLeft != 670 && laserLeft <= asteroidLeft){
-        if(laserTop <= asteroidTop && laserTop >= asteroidBottom){
-            return true 
-        } else {
-            return false
-        } 
-    } else {
-        return false 
+    // laser width = 142 laser height = 11
+    // asteroid width & height = 64
+    // asteroidTop is between 0-6 rem, left is <733
+
+    if (xPosition <= asteroidLeft){
+        if (yPosition >= asteroidTop){
+            if (yPosition <= asteroidBottom) {
+                console.log("hitty")
+                // return true
+            }
+        }
     }
+
+    // && (yPosition <= asteroidBottom)
+    // if (laserLeft != 670 && laserLeft <= asteroidLeft){
+    //     if(laserTop <= asteroidTop && laserTop >= asteroidBottom){
+    //         return true 
+    //     } else {
+    //         return false
+    //     } 
+    // } else {
+    //     return false 
+    // }
 }
 
 function scoreBoard(){
